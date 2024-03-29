@@ -1,10 +1,11 @@
 import java.util.Scanner;
+
+import Domain.Addition;
+import Domain.Calculator;
+import Domain.Division;
+import Domain.Multiplication;
+import Domain.Subtraction;
 import Interface.Operation;
-import Calculator.Addition;
-import Calculator.Division;
-import Calculator.Multiplication;
-import Calculator.Subtraction;
-import Calculator.Calculator;
 
 public class App {
     public static void main(String[] args) {
@@ -14,11 +15,11 @@ public class App {
         System.out.print("Введите первое число: ");
         double num1 = scanner.nextDouble();
 
-        System.out.print("Введите второе число: ");
-        double num2 = scanner.nextDouble();
-
         System.out.print("Выберите операцию (+, -, *, /): ");
         char operator = scanner.next().charAt(0);
+
+        System.out.print("Введите второе число: ");
+        double num2 = scanner.nextDouble();
 
         Operation operation;
         switch (operator) {
@@ -38,9 +39,10 @@ public class App {
                 System.out.println("Неверная операция!");
                 return;
         }
-
+        System.out.println("");
         calculator.setOperation(operation);
         double result = calculator.calculate(num1, num2);
+        System.out.println("");
         System.out.println("Результат: " + result);
     }
 }

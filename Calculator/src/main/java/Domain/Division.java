@@ -1,4 +1,4 @@
-package Calculator;
+package Domain;
 
 import Interface.Operation;
 
@@ -10,5 +10,10 @@ public class Division implements Operation {
         } else {
             throw new ArithmeticException("Деление на ноль!");
         }
+    }
+
+    @Override
+    public String getOperationName() {
+        return "Division";
     }
 }
