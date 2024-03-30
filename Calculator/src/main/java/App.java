@@ -1,48 +1,48 @@
 import java.util.Scanner;
 
-import Domain.Addition;
 import Domain.Calculator;
-import Domain.Division;
-import Domain.Multiplication;
-import Domain.Subtraction;
-import Interface.Operation;
+import Interface.ComplexNumber;
+import Domain.ComplexLoggerDecorator;
+import Domain.ComplexNumberImpl;
+import Domain.Logger;
 
 public class App {
     public static void main(String[] args) {
+        Logger logger = new Logger();
         Scanner scanner = new Scanner(System.in);
-        Calculator calculator = new Calculator();
 
-        System.out.print("Введите первое число: ");
-        double num1 = scanner.nextDouble();
+        System.out.print("Введите первый аргумент действительного числа: ");
+        double realPart1 = scanner.nextDouble();
+        System.out.print("Введите первый аргумент мнимого числа: ");
+        double imaginaryPart1 = scanner.nextDouble();
+        ComplexNumber primaryArg = new ComplexNumberImpl(realPart1, imaginaryPart1);
 
-        System.out.print("Выберите операцию (+, -, *, /): ");
-        char operator = scanner.next().charAt(0);
+        System.out.print("Введите команду ('*','+','/'): ");
+        char command = scanner.next().charAt(0);
 
-        System.out.print("Введите второе число: ");
-        double num2 = scanner.nextDouble();
+        System.out.print("Введите второй аргумент действительного числа: ");
+        double realPart2 = scanner.nextDouble();
+        System.out.print("Введите второй аргумент мнимого числа: ");
+        double imaginaryPart2 = scanner.nextDouble();
+        ComplexNumber secondaryArg = new ComplexNumberImpl(realPart2, imaginaryPart2);
 
-        Operation operation;
-        switch (operator) {
+        Calculator calculator = new Calculator(primaryArg, secondaryArg);
+        ComplexLoggerDecorator decoratedCalculator = new ComplexLoggerDecorator(calculator, logger);
+
+        switch (command) {
             case '+':
-                operation = new Addition();
-                break;
-            case '-':
-                operation = new Subtraction();
+                decoratedCalculator.complexSum(primaryArg, secondaryArg);
                 break;
             case '*':
-                operation = new Multiplication();
+                decoratedCalculator.complexMulti(primaryArg, secondaryArg);
                 break;
             case '/':
-                operation = new Division();
+                decoratedCalculator.complexDivision(primaryArg, secondaryArg);
                 break;
             default:
-                System.out.println("Неверная операция!");
-                return;
+                System.out.println("Неверная команда!");
         }
-        System.out.println("");
-        calculator.setOperation(operation);
-        double result = calculator.calculate(num1, num2);
-        System.out.println("");
-        System.out.println("Результат: " + result);
+
+        System.out.println("Результат: " + decoratedCalculator.getResult());
     }
 }
